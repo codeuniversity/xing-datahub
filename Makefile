@@ -7,3 +7,9 @@ env:
 
 install:
 	pip install -r requirements.txt
+
+librdkafka-linux-install:
+	apt install librdkafka-dev
+
+librdkafka-mac-install:
+	brew install librdkafka
