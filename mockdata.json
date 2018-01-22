@@ -38,5 +38,25 @@
         "industry": "IT",
         "name": "XING SE"
     }
+},
+{
+    "id": 3,
+    "first_name": "Niklas",
+    "last_name": "Meze",
+    "haves": ["deep Learning", "statisctics"],
+    "wants": ["skills", "python"],
+    "gender": ["male"],
+    "languages": ["de", "en"],
+    "business_address": {
+        "zipcode": "10317",
+        "country": "Germany",
+        "city": "Berlin",
+        "street": "Warschauerstrasse 30"
+    },
+    "primary_company": {
+        "title": "Data Engineer",
+        "industry": "IT",
+        "name": "SAP"
+    }
 }
 ]
