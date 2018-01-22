@@ -4,6 +4,7 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+
   kafka:
     image: wurstmeister/kafka
     ports:
@@ -13,3 +14,16 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+  hdfs:
+    image: cloudera/quickstart:latest
+    command: /usr/bin/docker-quickstart
+    hostname: quickstart.cloudera
+    privileged: true
+    tty: true
+    stdin_open: true
+    ports:
+      - "8888:8888"
+      - "7180:7180"
+      - "50070:50070"
+      - "50075:50075"
