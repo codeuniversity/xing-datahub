@@ -6,8 +6,10 @@ import async_timeout
 import sys
 # the mock-0.3.1 dir contains testcase.py, testutils.py & mock.py
 sys.path.append('build')
-import user_pb2
+from build import user_pb2
+
 p = Producer({'bootstrap.servers': 'localhost:9092'})
+
 
 def push_to_kafka(msg):
     user_dict_array = json.loads(msg)
@@ -26,6 +28,7 @@ async def fetch(session, url):
         async with session.get(url) as response:
             return await response.text()
 
+
 async def main():
     async with aiohttp.ClientSession() as session:
         msg = await fetch(session, 'http://localhost:8080/users')
@@ -33,6 +36,3 @@ async def main():
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
-
-
-
