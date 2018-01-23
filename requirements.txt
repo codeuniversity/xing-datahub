@@ -2,3 +2,4 @@ confluent-kafka==0.11.0
 protobuf==3.5.1
 six==1.11.0
 aiohttp
+hdfs
