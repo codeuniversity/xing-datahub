@@ -1,10 +1,5 @@
 version: '3'
 services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    ports:
-      - "2181:2181"
-
   kafka:
     image: wurstmeister/kafka
     ports:
@@ -27,3 +22,8 @@ services:
       - "7180:7180"
       - "50070:50070"
       - "50075:50075"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
