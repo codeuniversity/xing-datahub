@@ -13,8 +13,12 @@
 # Run docker infrastructure
 - Edit your machine's /etc/hosts file to include this alias:
   `0.0.0.0 quickstart.cloudera`
-- ```bash
+  ```bash
     docker-compose up
   ```
 - To check the docker image for hadoop is working, open a new terminal
   and execute `python sample.py`
+
+# Problems you might run into
+after `docker-compose up` kafka exits with status 137
+- allocate more memory to your docker instance
