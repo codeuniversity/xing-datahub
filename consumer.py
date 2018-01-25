@@ -15,7 +15,8 @@ while running:
     elif not msg.error():
         user = user_pb2.User()
         user.ParseFromString(msg.value())
-        print(user.id, ' ',user.first_name, ' ', user.last_name)
+        print('------>')
+        print(user)
     elif msg.error().code() != KafkaError._PARTITION_EOF:
         print(msg.error())
         running = False
