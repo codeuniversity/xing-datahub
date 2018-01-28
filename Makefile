@@ -1,6 +1,6 @@
 
 proto:
-	protoc --python_out=build user.proto
+	protoc --python_out=build Protocol.proto
 
 env:
 	python3.6 -m venv env

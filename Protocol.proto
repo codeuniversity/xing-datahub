@@ -26,3 +26,7 @@ message Address {
   string street = 4;
 }
 
+message Connection {
+  int32 a = 1;
+  int32 b = 2;
+}
