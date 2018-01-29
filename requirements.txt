@@ -4,11 +4,16 @@ certifi==2018.1.18
 chardet==3.0.4
 confluent-kafka==0.11.0
 docopt==0.6.2
+future==0.16.0
 hdfs==2.1.0
 idna==2.6
 multidict==4.0.0
 protobuf==3.5.1
+PyHive==0.5.0
 requests==2.18.4
+sasl==0.2.1
 six==1.11.0
+thrift==0.11.0
+thrift-sasl==0.3.0
 urllib3==1.22
 yarl==1.0.0
