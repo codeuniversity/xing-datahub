@@ -1,22 +1,28 @@
 from confluent_kafka import Consumer, KafkaError
 import sys
 from build import Protocol_pb2
+import hive_handler
 
 c = Consumer({'bootstrap.servers': 'localhost:9092', 'group.id': 'consumer',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})
 c.subscribe(['users', 'connections'])
 
+
+def handle_user(msg):
+    user = Protocol_pb2.User()
+    user.ParseFromString(msg.value())
+    hive_handler.insert_user(user)
+
+def handle_connection(msg):
+    connection = Protocol_pb2.Connection()
+    connection.ParseFromString(msg.value())
+
+
 def handle_message(msg):
     if msg.topic() == 'users':
-        user = Protocol_pb2.User()
-        user.ParseFromString(msg.value())
-        print('User ------>')
-        print(user)
+        handle_user(msg)
     elif msg.topic() == 'connections':
-        connection = Protocol_pb2.Connection()
-        connection.ParseFromString(msg.value())
-        print('Connection ----->')
-        print(connection)
+        handle_connection(msg)
     else:
         print(msg.topic())
 running = True
