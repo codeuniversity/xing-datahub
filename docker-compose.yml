@@ -13,6 +13,7 @@ services:
     tty: true
     stdin_open: true
     ports:
+      - "80:80"
       - "8888:8888"
       - "7180:7180"
       - "10000:10000"
