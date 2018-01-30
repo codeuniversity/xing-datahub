@@ -11,6 +11,21 @@ user_schema_string = """
   business_address struct<country: STRING, zipcode: STRING, city: STRING, street: STRING>,
   primary_company struct<title: STRING, name: STRING>
   """
+user_csv_schema_string = """
+  id INT,
+  first_name STRING,
+  last_name STRING,
+  gender STRING,
+  wants Array<STRING>,
+  haves Array<STRING>,
+  languages Array<STRING>,
+  address_country STRING,
+  address_zipcode STRING,
+  address_city STRING,
+  address_street STRING,
+  company_title STRING,
+  company_name STRING
+  """
 connection_schema_string = """
   a INT,
   b INT
@@ -104,11 +119,40 @@ def create_csv_table(name, location_prefix, schema_string):
       CREATE EXTERNAL TABLE {}
       ({})
       ROW FORMAT DELIMITED FIELDS TERMINATED BY ';'
+      collection items terminated by '|'
       STORED AS TEXTFILE
       LOCATION '/user/cloudera/{}/{}b'
       """.format(name, schema_string,location_prefix, name)
   print('creating csv table: ', name, '...')
   cursor.execute(create_table)
+  print('...done!')
+
+def create_user_csv_table(name):
+  create_table = """
+  CREATE EXTERNAL TABLE {}
+  ({})
+  ROW FORMAT DELIMITED FIELDS TERMINATED BY ';'
+  collection items terminated by '|'
+  STORED AS TEXTFILE
+  LOCATION '/user/cloudera/users/{}b'
+  """.format(name, user_csv_schema_string, name)
+  print('creating csv table: ', name, '...')
+  cursor.execute(create_table)
+  print('...done!')
+
+def insert_into_users_from_table(from_table_name):
+  selection = """
+    c.id, c.first_name, c.last_name, c.gender, c.wants, c.haves, c.languages,
+    named_struct(
+    'country', c.address_country,
+    'zipcode', c.address_zipcode,
+    'city', c.address_city,
+    'street', c.address_street),
+    named_struct('title', c.company_title ,'name', c.company_name)
+  """
+  insert = "INSERT INTO users SELECT {} from {} c ".format(selection,from_table_name)
+  print('inserting users from csv: ', from_table_name)
+  cursor.execute(insert)
   print('...done!')
 
 def insert_from_table(into_table_name, from_table_name):

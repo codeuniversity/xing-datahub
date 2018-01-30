@@ -2,12 +2,12 @@ from confluent_kafka import Consumer, KafkaError
 import sys
 from build import Protocol_pb2
 import hive_handler
-from csv_export_handler import ExportHandler, user_to_csv_line, connection_to_csv_line
+from csv_export_handler import ConnectionExportHandler, UserExportHandler, user_to_csv_line, connection_to_csv_line
 c = Consumer({'bootstrap.servers': 'localhost:9092', 'group.id': 'consumer',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})
 c.subscribe(['users', 'connections'])
-user_exporter = ExportHandler(batch_size = 2500)
-connection_exporter = ExportHandler(batch_size = 20000, name='connections', converter=connection_to_csv_line, schema_string=hive_handler.connection_schema_string)
+user_exporter = UserExportHandler(batch_size = 2500)
+connection_exporter = ConnectionExportHandler(batch_size = 20000, name='connections', converter=connection_to_csv_line, schema_string=hive_handler.connection_schema_string)
 
 def handle_user(msg):
     user = Protocol_pb2.User()
