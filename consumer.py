@@ -6,13 +6,15 @@ import hive_handler
 c = Consumer({'bootstrap.servers': 'localhost:9092', 'group.id': 'consumer',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})
 c.subscribe(['users', 'connections'])
-
-
+batch_size = 10
+user_batch = []
 def handle_user(msg):
     user = Protocol_pb2.User()
     user.ParseFromString(msg.value())
-    hive_handler.insert_user(user)
-
+    user_batch.append(user)
+    if len(user_batch) >= batch_size:
+        hive_handler.insert_users(user_batch)
+    # hive_handler.insert_user(user)
 def handle_connection(msg):
     connection = Protocol_pb2.Connection()
     connection.ParseFromString(msg.value())
