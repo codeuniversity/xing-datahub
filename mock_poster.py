@@ -18,11 +18,11 @@ async def main():
             await post(session, 'http://localhost:8080/users', msg)
             msg = get_json_string(f)
 
-        # f = open('../users/data/connections.jsonl', 'r')
-        # msg = get_json_string(f)
-        # while not msg is None and not msg == '':
-        #     await post(session, 'http://localhost:8080/connections', msg)
-        #     msg = get_json_string(f)
+        f = open('../users/data/connections.jsonl', 'r')
+        msg = get_json_string(f)
+        while not msg is None and not msg == '':
+            await post(session, 'http://localhost:8080/connections', msg)
+            msg = get_json_string(f)
 
 
 

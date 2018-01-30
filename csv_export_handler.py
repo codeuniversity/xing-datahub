@@ -5,10 +5,10 @@ import os
 import hive_handler
 
 def csv_address_helper(address):
-  return "'{}', '{}', '{}', '{}'".format(address.country, address.zipcode, address.city, address.street)
+  return "{}|{}|{}|{}|".format(address.country, address.zipcode, address.city, address.street)
 
 def csv_company_helper(company):
-  return "{}, {}".format(company.title, company.name)
+  return "{}|{}".format(company.title, company.name)
 
 def csv_array_helper(array):
   return "|".join(map(str, array))
@@ -22,12 +22,8 @@ def user_to_csv_line(user):
     csv_array_helper(user.wants),
     csv_array_helper(user.haves),
     csv_array_helper(user.languages),
-    user.business_address.country,
-    user.business_address.zipcode,
-    user.business_address.city,
-    user.business_address.street,
-    user.primary_company.title,
-    user.primary_company.name
+    csv_address_helper(user.business_address),
+    csv_company_helper(user.primary_company)
   ]
   return ';'.join(map(str, list))
 
@@ -78,11 +74,3 @@ class ExportHandler(object):
     self.file = open(self.file_location, 'w')
     self.current_batch_size = 0
 
-class UserExportHandler(ExportHandler):
-  def _handle_tables(self):
-    hive_handler.create_user_csv_table(self.file_name)
-    hive_handler.insert_into_users_from_table(self.file_name)
-    hive_handler.drop_table(self.file_name)
-
-class ConnectionExportHandler(ExportHandler):
-  pass
