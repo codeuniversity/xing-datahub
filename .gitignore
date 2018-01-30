@@ -3,3 +3,4 @@ build/__pycache__/user_pb2.cpython-36.pyc
 env
 
 __pycache__
+tmp/*
