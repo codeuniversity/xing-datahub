@@ -11,5 +11,6 @@ def put_in_hdfs(hdfs_path, local_path):
                   temp_dir='/tmp/{}'.format(local_path))
     print('done!')
 
+
 def test():
     put_in_hdfs('/users/test', 'data/users.csv')
