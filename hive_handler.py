@@ -1,20 +1,22 @@
 from pyhive import hive
 
-cursor = hive.connect('localhost').cursor()
-query = """
-  CREATE TABLE IF NOT EXISTS users
-  (
-    id INT,
-    first_name STRING,
-    last_name STRING,
-    gender STRING,
-    wants Array<STRING>,
-    haves Array<STRING>,
-    languages Array<STRING>
-  )
-  """
+# cursor = hive.connect('localhost').cursor()
+# query = """
+#   CREATE EXTERNAL TABLE IF NOT EXISTS users
+#   (
+#     id INT,
+#     first_name STRING,
+#     last_name STRING,
+#     gender STRING,
+#     wants Array<STRING>,
+#     haves Array<STRING>,
+#     languages Array<STRING>
+#   )
+#   row format delimited fields terminated by ';'
+#
+#   """
 
-cursor.execute(query)
+# cursor.execute(query)
 
 def array_helper(array):
   if len(array) == 0:
@@ -56,3 +58,26 @@ def insert_user(user):
   )
   cursor.execute(q)
   print('Did:', q)
+
+
+def recreate_users_csv_table():
+    drop_table = "DROP TABLE users_csv"
+    create_table = """
+        CREATE EXTERNAL TABLE users_csv
+        (
+            id INT,
+            first_name STRING,
+            last_name STRING,
+            gender STRING,
+            wants Array<STRING>,
+            haves Array<STRING>,
+            languages Array<STRING>
+        )
+        ROW FORMAT DELIMITED FIELDS TERMINATED BY ';' 
+        STORED AS TEXTFILE 
+        LOCATION '/users'
+        """
+
+    cursor = hive.connect('localhost').cursor()
+    cursor.execute(drop_table)
+    cursor.execute(create_table)
