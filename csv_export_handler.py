@@ -47,7 +47,7 @@ class ExportHandler(object):
     self.current_batch_size = 0
 
   def add(self, record):
-    print(self.name,': adding nr ', self.counter)
+    # print(self.name,': adding nr ', self.counter)
     print(self.converter(record), file=self.file)
     self.counter += 1
     self.current_batch_size += 1

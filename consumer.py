@@ -6,8 +6,8 @@ from csv_export_handler import ExportHandler, user_to_csv_line, connection_to_cs
 c = Consumer({'bootstrap.servers': 'localhost:9092', 'group.id': 'consumer',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})
 c.subscribe(['users', 'connections'])
-user_exporter = ExportHandler(batch_size = 2500)
-connection_exporter = ExportHandler(batch_size = 20000, name='connections', converter=connection_to_csv_line, schema_string=hive_handler.connection_schema_string)
+user_exporter = ExportHandler(batch_size = 5000)
+connection_exporter = ExportHandler(batch_size = 100000, name='connections', converter=connection_to_csv_line, schema_string=hive_handler.connection_schema_string)
 
 def handle_user(msg):
     user = Protocol_pb2.User()
