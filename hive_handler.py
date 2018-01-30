@@ -11,15 +11,24 @@ user_schema_string = """
   business_address struct<country: STRING, zipcode: STRING, city: STRING, street: STRING>,
   primary_company struct<title: STRING, name: STRING>
   """
+connection_schema_string = """
+  a INT,
+  b INT
+  """
 
-
-cursor = hive.connect('localhost').cursor()
-query = """
+users_create_query = """
   CREATE TABLE IF NOT EXISTS users
   ({}) STORED AS TEXTFILE
   """.format(user_schema_string)
 
-cursor.execute(query)
+connections_create_query = """
+  CREATE TABLE IF NOT EXISTS connections
+  ({}) STORED AS TEXTFILE
+  """.format(connection_schema_string)
+
+cursor = hive.connect('localhost').cursor()
+cursor.execute(users_create_query)
+cursor.execute(connections_create_query)
 
 def array_helper(array):
   if len(array) == 0:
@@ -90,21 +99,21 @@ def multiple_users_sql_string(users):
     s += single_user_sql_string(user)
   return s
 
-def create_users_csv_table(name='users'):
+def create_csv_table(name, location_prefix, schema_string):
   create_table = """
       CREATE EXTERNAL TABLE {}
       ({})
       ROW FORMAT DELIMITED FIELDS TERMINATED BY ';'
       STORED AS TEXTFILE
-      LOCATION '/user/cloudera/users/{}b'
-      """.format(name, user_schema_string, name)
+      LOCATION '/user/cloudera/{}/{}b'
+      """.format(name, schema_string,location_prefix, name)
   print('creating csv table: ', name, '...')
   cursor.execute(create_table)
   print('...done!')
 
-def insert_users_from_table(table_name):
-  insert = "INSERT INTO users SELECT * from {}".format(table_name)
-  print('inserting users from csv: ', table_name)
+def insert_from_table(into_table_name, from_table_name):
+  insert = "INSERT INTO {} SELECT * from {}".format(into_table_name,from_table_name)
+  print('inserting ', into_table_name,' from csv: ', from_table_name)
   cursor.execute(insert)
   print('...done!')
 
