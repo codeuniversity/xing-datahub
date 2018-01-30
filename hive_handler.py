@@ -13,7 +13,7 @@ query = """
     languages Array<STRING>,
     business_address struct<country: STRING, zipcode: STRING, city: STRING, street: STRING>,
     primary_company struct<title: STRING, name: STRING>
-  ) STORED AS ORC
+  ) STORED AS TEXTFILE
   """
 
 cursor.execute(query)
