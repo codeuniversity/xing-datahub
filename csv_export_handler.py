@@ -5,13 +5,13 @@ import os
 import hive_handler
 
 def csv_address_helper(address):
-  return "'{}', '{}', '{}', '{}'".format(address.country, address.zipcode, address.city, address.street)
+  return "{}|{}|{}|{}|".format(address.country, address.zipcode, address.city, address.street)
 
 def csv_company_helper(company):
-  return "{}, {}".format(company.title, company.name)
+  return "{}|{}".format(company.title, company.name)
 
 def csv_array_helper(array):
-  return ",".join(map(str, array))
+  return "|".join(map(str, array))
 
 def user_to_csv_line(user):
   list = [
@@ -58,12 +58,15 @@ class ExportHandler(object):
     if self.current_batch_size > 0:
       self.file.close()
       hdfs_helpers.put_in_hdfs(self.name + "/{}b/data".format(self.file_name), self.file_location)
-      hive_handler.create_csv_table(self.file_name, self.name, self.schema_string)
-      hive_handler.insert_from_table(self.name, self.file_name)
-      hive_handler.drop_table(self.file_name)
+      self._handle_tables()
       # TODO: remove csv file from hdfs too
       os.remove(self.file_location)
       self._reset()
+
+  def _handle_tables(self):
+    hive_handler.create_csv_table(self.file_name, self.name, self.schema_string)
+    hive_handler.insert_from_table(self.name, self.file_name)
+    hive_handler.drop_table(self.file_name)
 
   def _reset(self):
     self.file_name = "{}_from_{}".format(self.name, self.counter)

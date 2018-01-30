@@ -11,6 +11,7 @@ user_schema_string = """
   business_address struct<country: STRING, zipcode: STRING, city: STRING, street: STRING>,
   primary_company struct<title: STRING, name: STRING>
   """
+
 connection_schema_string = """
   a INT,
   b INT
@@ -104,6 +105,7 @@ def create_csv_table(name, location_prefix, schema_string):
       CREATE EXTERNAL TABLE {}
       ({})
       ROW FORMAT DELIMITED FIELDS TERMINATED BY ';'
+      collection items terminated by '|'
       STORED AS TEXTFILE
       LOCATION '/user/cloudera/{}/{}b'
       """.format(name, schema_string,location_prefix, name)
