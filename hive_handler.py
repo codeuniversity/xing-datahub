@@ -19,12 +19,12 @@ connection_schema_string = """
 
 users_create_query = """
   CREATE TABLE IF NOT EXISTS users
-  ({}) STORED AS TEXTFILE
+  ({}) STORED AS ORC
   """.format(user_schema_string)
 
 connections_create_query = """
   CREATE TABLE IF NOT EXISTS connections
-  ({}) STORED AS TEXTFILE
+  ({}) STORED AS ORC
   """.format(connection_schema_string)
 
 cursor = hive.connect('localhost').cursor()
