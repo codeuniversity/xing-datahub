@@ -6,8 +6,12 @@ from csv_export_handler import ExportHandler
 c = Consumer({'bootstrap.servers': 'localhost:9092', 'group.id': 'written file consumer',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})
 c.subscribe(['written_files'])
+
 user_exporter = ExportHandler()
-connection_exporter = ExportHandler(name='connections', schema_string=hive_handler.connection_schema_string)
+item_exporter = ExportHandler(name='items', schema_string=hive_handler.item_schema_string)
+interaction_exporter = ExportHandler(name='interactions', schema_string=hive_handler.interaction_schema_string)
+target_user_exporter = ExportHandler(name='target_users', schema_string=hive_handler.target_user_schema_string)
+target_item_exporter = ExportHandler(name='target_items', schema_string=hive_handler.target_item_schema_string)
 
 def handle_file(msg):
     csvInfo = protocol_pb2.WrittenCSVInfo()
@@ -15,8 +19,14 @@ def handle_file(msg):
     t = csvInfo.recordType
     if t == "users":
         user_exporter.commit(csvInfo.filepath, csvInfo.filename)
-    elif t == "connections":
-        connection_exporter.commit(csvInfo.filepath, csvInfo.filename)
+    elif t == "items":
+        item_exporter.commit(csvInfo.filepath, csvInfo.filename)
+    elif t == "interactions":
+        interaction_exporter.commit(csvInfo.filepath, csvInfo.filename)
+    elif t == "target_users":
+        target_user_exporter.commit(csvInfo.filepath, csvInfo.filename)
+    elif t == "target_items":
+        target_item_exporter.commit(csvInfo.filepath, csvInfo.filename)
     else:
         print("recod type ", t, " not supported")
 
