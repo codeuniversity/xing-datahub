@@ -1,6 +1,6 @@
 
 proto:
-	protoc --python_out=build Protocol.proto
+	cd xing-datahub-protocol; protoc --python_out=../build protocol.proto
 
 env:
 	python3.6 -m venv env
