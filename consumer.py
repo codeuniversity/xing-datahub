@@ -21,7 +21,7 @@ def handle_file(msg):
         user_exporter.commit(csvInfo.filepath, csvInfo.filename)
     elif t == "items":
         item_exporter.commit(csvInfo.filepath, csvInfo.filename)
-    elif t == "interaction":
+    elif t == "interactions":
         interaction_exporter.commit(csvInfo.filepath, csvInfo.filename)
     elif t == "target_users":
         target_user_exporter.commit(csvInfo.filepath, csvInfo.filename)
