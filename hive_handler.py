@@ -1,5 +1,5 @@
 from pyhive import hive
-
+import model
 cursor = hive.connect('localhost').cursor()
 
 def create_table(name, schema_string):
@@ -92,3 +92,24 @@ def drop_table(name):
     print('...done!')
 
 
+def fetch(name, schema_string, limit=100, where="True"):
+  q = "SELECT * from {} where {} limit {}".format(name, where, limit)
+  cursor.execute(q)
+  rows = cursor.fetchall()
+  l = list(map(lambda row: model.parse_tuple(row, schema_string),rows))
+  return l
+
+def fetch_users(limit=100, where="True"):
+  return fetch("users", user_schema_string, limit, where)
+
+def fetch_items(limit=100, where="True"):
+  return fetch("items", item_schema_string, limit, where)
+
+def fetch_interactions(limit=100, where="True"):
+  return fetch("interactions", interaction_schema_string, limit, where)
+
+def fetch_target_users(limit=100, where="True"):
+  return fetch("target_users", target_user_schema_string, limit, where)
+
+def fetch_target_items(limit=100, where="True"):
+  return fetch("target_items", target_item_schema_string, limit, where)
