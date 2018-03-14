@@ -7,13 +7,13 @@ services:
 
   hdfs:
     image: cloudera/quickstart:latest
-    command: HIVE_OPTS="-hiveconf mapreduce.map.memory.mb=16000 -hiveconf mapreduce.reduce.memory.mb=16000" /usr/bin/docker-quickstart
     hostname: quickstart.cloudera
     privileged: true
     tty: true
     stdin_open: true
     environment:
       - HIVE_OPTS="-hiveconf mapreduce.map.memory.mb=16000 -hiveconf mapreduce.reduce.memory.mb=16000"
+    command: /usr/bin/docker-quickstart
     ports:
       - "80:80"
       - "7180:7180"
