@@ -12,7 +12,7 @@ before_script:
 - sleep 180
 - make services-up
 script:
-- python
+- python end_to_end_test.py
 - docker-compose -f docker-compose.test.yml down
 notifications:
   slack:
