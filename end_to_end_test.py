@@ -10,7 +10,7 @@ class EndpointTestCase(unittest.TestCase):
     for user in users:
       requests.post('http://localhost:3000/users', json=user, headers={'access-token': TOKEN})
 
-    time.sleep(30)
+    time.sleep(60)
     resp = requests.get('http://localhost:3003/users', headers={'access-token': TOKEN})
     returned_users = resp.json()
     print(returned_users)
