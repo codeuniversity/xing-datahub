@@ -1,3 +1,6 @@
+dep:
+	pip install -r requirements.txt
+
 db-up:
 	docker-compose up -d
 
