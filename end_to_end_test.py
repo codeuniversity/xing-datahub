@@ -11,7 +11,7 @@ class EndpointTestCase(unittest.TestCase):
     for user in users:
       resp = requests.post('http://localhost:3000/users', json=user, headers={'access-token': TOKEN})
       self.assertEqual(resp.status_code, 200)
-    time.sleep(300)
+    time.sleep(90)
     resp = requests.get('http://localhost:3003/users', headers={'access-token': TOKEN})
     returned_users = resp.json()
     print(returned_users)
@@ -20,5 +20,5 @@ class EndpointTestCase(unittest.TestCase):
     self.assertDictContainsSubset(expected_users[0], returned_users[0])
     self.assertDictContainsSubset(expected_users[1], returned_users[1])
 
-time.sleep(30)
+time.sleep(20)
 unittest.main()

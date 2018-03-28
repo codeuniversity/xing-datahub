@@ -11,7 +11,9 @@ before_script:
 - make db-up
 - sleep 180
 - make services-up
+- sleep 10
 script:
+- docker ps
 - python end_to_end_test.py
 - make db-down
 notifications:
