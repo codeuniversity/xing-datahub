@@ -8,7 +8,7 @@
 `sudo make librfkafka-linux-install`
 
 # Fix "librdkafka" error on Mac
-`sudo make librfkafka-linux-install`
+`brew install librdkafka`
 
 # Run docker infrastructure
 - Edit your machine's /etc/hosts file to include this alias:
