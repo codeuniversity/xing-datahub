@@ -25,7 +25,7 @@ class EndpointTestCase(unittest.TestCase):
     for t in target_users:
       resp = requests.post('http://localhost:3000/target_users', json=t, headers={'access-token': TOKEN})
       self.assertEqual(resp.status_code, 200)
-    time.sleep(90)
+    time.sleep(120)
     resp = requests.get('http://localhost:3003/target_users', headers={'access-token': TOKEN})
     returned_target_users = resp.json()
     print(returned_target_users)
